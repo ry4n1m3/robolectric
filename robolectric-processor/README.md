@@ -18,17 +18,7 @@ Robolectric has a large amount of boilerplate code in the form of the <code>shad
 
 ### Constraint enforcement
 
-The test-driven development process typically takes the form of a series of concentric circles:
-
-* develop
-* compile
-* unit test
-* integration test
-* user test
-
-Each of these stages may uncover problems that require looping back to the first stage (development). As each of these stages represents a progressively more advanced stage of development, with correspondingly higher overheads involved if a return to the development stage is required. So in the interests of maximizing development efficiency it is best to catch as many bugs as possible as early as possible in the cycle. Why wait to find a bug at integration test time that could have been tested for at unit testing time, or better still at compile time?
-
-RAP employs this philosophy and attempts to shorten the development cycle by moving some tests to compile time. There are a number of usages and constraints implicit in Robolectric's annotation model that cannot be expressed using the simple type system in the annotations themselves. RAP detects violations of these constraints and enforces them at compile time, short-circuiting the need for unit tests or integration tests.
+RAP attempts to shorten the development cycle by moving some tests to compile time. There are a number of usages and constraints implicit in Robolectric's annotation model that cannot be expressed using the simple type system in the annotations themselves. RAP detects violations of these constraints and enforces them at compile time, short-circuiting the need for some unit tests or integration tests.
 
 Constraints currently enforced by RAP are:
 
