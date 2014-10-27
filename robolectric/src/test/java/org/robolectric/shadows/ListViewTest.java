@@ -1,6 +1,10 @@
 package org.robolectric.shadows;
 
+import static android.view.View.MeasureSpec.EXACTLY;
+import static android.view.View.MeasureSpec.makeMeasureSpec;
 import static java.util.Arrays.asList;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertTrue;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
@@ -13,11 +17,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.TestRunners;
+import org.robolectric.internal.ReflectionHelpers;
 import org.robolectric.util.Transcript;
 
 import android.util.SparseBooleanArray;
@@ -487,6 +493,84 @@ public class ListViewTest {
     listView.performItemClick(null, checkedItemPosition, 0);
 
     assertFalse(listView.getCheckedItemPositions().get(checkedItemPosition));
+  }
+
+  @Test
+  public void setAdapter_whenViewTypeValueIsInvalid_givesHelpfulException() {
+    try {
+      BaseAdapter adapter = new BaseAdapter() {
+        @Override
+        public int getCount() {
+          return 1;
+        }
+
+        @Override
+        public Object getItem(int position) {
+          return new Object();
+        }
+
+        @Override
+        public long getItemId(int position) {
+          return 0;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+          return new View(parent.getContext());
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+          return 5;
+        }
+
+        @Override
+        public int getViewTypeCount() {
+          return 1;
+        }
+      };
+      ListView listView = new ListView(Robolectric.application);
+      listView.setAdapter(adapter);
+      fail("no exception thrown");
+    } catch (Exception e) {
+      if(!e.getMessage().contains("getItemViewType()") && !e.getMessage().contains("getViewTypeCount()")) {
+        Assert.fail(e.getMessage());
+      }
+    }
+  }
+
+  @Test
+  public void setAdapter_updatesChoiceModeStates() {
+    BaseAdapter adapter = new BaseAdapter() {
+      @Override
+      public int getCount() {
+        return 1;
+      }
+
+      @Override
+      public Object getItem(int position) {
+        return new Object();
+      }
+
+      @Override
+      public long getItemId(int position) {
+        return 0;
+      }
+
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        return new View(parent.getContext());
+      }
+
+      @Override
+      public boolean hasStableIds() {
+        return true;
+      }
+    };
+    ListView listView = new ListView(Robolectric.application);
+    listView.setAdapter(adapter);
+    boolean mAdapterHasStableIds = ReflectionHelpers.<Boolean>getFieldReflectively(listView, "mAdapterHasStableIds");
+    assertEquals(mAdapterHasStableIds, true);
   }
 
   private ListAdapterBuilder prepareListAdapter() {
