@@ -98,6 +98,18 @@ public class DefaultTestLifecycleTest {
     assertThat(defaultTestLifecycle.createApplication(null, null, null)).isExactlyInstanceOf(Application.class);
   }
 
+  @Test
+  public void whenAnActivityHasLauncherCategory_includesSearchableIntentInResolveInfo() {
+    AndroidManifest appManifest = newConfig("TestAndroidManifestForActivitiesWithIntentFilter.xml");
+    Application application = defaultTestLifecycle.createApplication(null, appManifest, null);
+
+    PackageManager packageManager = application.getPackageManager();
+    Intent intent = new Intent(Intent.ACTION_MAIN);
+    intent.addCategory(Intent.CATEGORY_LAUNCHER);
+    intent.setPackage("org.robolectric.shadows");
+    assertThat(packageManager.resolveActivity(intent, -1)).isNotNull();
+  }
+
   /////////////////////////////
 
   public AndroidManifest newConfigWith(String contents) throws IOException {

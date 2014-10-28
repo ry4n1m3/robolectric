@@ -10,6 +10,7 @@ import android.appwidget.AppWidgetManager;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.*;
+import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.AssetManager;
 import android.content.res.Configuration;
@@ -97,7 +98,7 @@ import java.util.List;
 public class Robolectric {
   public static Application application;
   public static Object activityThread;
-  public static RobolectricPackageManager packageManager;
+  public static PackageManager packageManager;
 
   public static final Class<?>[] DEFAULT_SHADOW_CLASSES = {
       ShadowAbsListView.class,

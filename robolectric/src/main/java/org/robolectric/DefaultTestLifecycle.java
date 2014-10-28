@@ -64,7 +64,7 @@ public class DefaultTestLifecycle implements TestLifecycle {
       application = new Application();
     }
 
-    addManifestActivitiesToPackageManager(appManifest, application);
+//    addManifestActivitiesToPackageManager(appManifest, application);
 
     return application;
   }
@@ -90,6 +90,7 @@ public class DefaultTestLifecycle implements TestLifecycle {
       for (ActivityData data : activityDatas.values()) {
         String name = data.getName();
         String activityName = name.startsWith(".") ? appManifest.getPackageName() + name : name;
+
         packageManager.addResolveInfoForIntent(new Intent(activityName), new ResolveInfo());
       }
     }
