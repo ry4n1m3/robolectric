@@ -56,8 +56,7 @@ public class SdkConfig {
     return new DependencyJar[] {
         realAndroidDependency("android-all"),
         createDependency("org.json", "json", "20080701"),
-        createDependency("org.ccil.cowan.tagsoup", "tagsoup", "1.2"),
-        createDependency("com.google.android", "support-v4", "r7")
+        createDependency("org.ccil.cowan.tagsoup", "tagsoup", "1.2")
     };
   }
 
