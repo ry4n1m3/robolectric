@@ -22,6 +22,7 @@
 #   4.2.2_r1.2  - Jelly Bean MR1
 #   4.3_r2      - Jelly Bean MR2
 #   4.4_r1      - Kit Kat
+#   5.0.0_r2    - Lollipop
 #
 # Environment Variables:
 #   BUILD_ROOT        - Path to AOSP source directory
@@ -82,6 +83,8 @@ build_platform() {
     elif [[ "${ANDROID_VERSION}" == "4.3_r2" ]]; then
         ARTIFACTS=("core" "services" "telephony-common" "framework" "android.policy" "ext")
     elif [[ "${ANDROID_VERSION}" == "4.4_r1" ]]; then
+        ARTIFACTS=("core" "services" "telephony-common" "framework" "framework2" "framework-base" "android.policy" "ext" "webviewchromium")
+    elif [[ "${ANDROID_VERSION}" == "5.0.0_r2" ]]; then
         ARTIFACTS=("core" "services" "telephony-common" "framework" "framework2" "framework-base" "android.policy" "ext" "webviewchromium")
     else
         echo "Robolectric: No match for version: ${ANDROID_VERSION}"
